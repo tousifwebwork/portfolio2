@@ -132,10 +132,7 @@ export default function Navbar() {
               );
             })}
           </ul>
-
-          <Link href="/contact" className={`${ctaClass} hidden md:inline-flex`}>
-            Let&apos;s Talk <LuArrowUpRight size={18} aria-hidden />
-          </Link>
+ 
 
           <button
             ref={toggleRef}

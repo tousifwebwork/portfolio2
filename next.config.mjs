@@ -14,7 +14,7 @@ const nextConfig = {
         as: "*.css",
       },
     },
-  },
+  },  
 };
 
 export default nextConfig;

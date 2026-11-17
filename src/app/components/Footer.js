@@ -113,7 +113,7 @@ export default function Footer() {
 
         {/* Bottom bar */}
         <div className="mt-12 flex flex-col items-center justify-between gap-4 border-t border-violet-500/20 pt-6 text-sm text-[#8f8bc4] sm:flex-row">
-          <p>&copy; {new Date().getFullYear()} Tousif. All rights reserved.</p>
+          <p>&copy; 2026 Tousif. All rights reserved.</p>
           <p>Built with Next.js &amp; Tailwind CSS</p>
           <a href="#" className="inline-flex items-center gap-2 transition hover:text-white">
             Back to top <LuArrowUp size={16} aria-hidden />

@@ -1,9 +1,16 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { AnimatePresence, motion } from "framer-motion";
+import {
+  AnimatePresence,
+  motion,
+  useMotionValueEvent,
+  useReducedMotion,
+  useScroll,
+  useSpring,
+} from "framer-motion";
 import { LuCode, LuArrowUpRight, LuMenu, LuX } from "react-icons/lu";
 
 const LINKS = [
@@ -22,22 +29,58 @@ const item = { hidden: { opacity: 0, x: 40 }, show: { opacity: 1, x: 0, transiti
 
 export default function Navbar() {
   const pathname = usePathname();
+  const reduce = useReducedMotion();
+  const toggleRef = useRef(null);
+  const introDone = useRef(false);
+
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [hidden, setHidden] = useState(false);
 
+  // Scroll progress bar along the bottom edge of the header
+  const { scrollY, scrollYProgress } = useScroll();
+  const progress = useSpring(scrollYProgress, { stiffness: 120, damping: 30, mass: 0.3 });
+
+  // Hide when scrolling down, show when scrolling up
+  useMotionValueEvent(scrollY, "change", (y) => {
+    const prev = scrollY.getPrevious() ?? 0;
+    setScrolled(y > 12);
+    setHidden(!reduce && !open && y > prev && y > 160);
+  });
+
+  // The entrance delay (waiting for the splash screen) only applies the first time
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 12);
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
+    const t = setTimeout(() => (introDone.current = true), 1700);
+    return () => clearTimeout(t);
   }, []);
 
+  // Close the menu on route change
   useEffect(() => setOpen(false), [pathname]);
 
+  // Lock page scroll while the menu is open
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "";
     return () => {
       document.body.style.overflow = "";
+    };
+  }, [open]);
+
+  // Escape closes the menu and returns focus to the toggle; resizing to desktop closes it too
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (e) => {
+      if (e.key === "Escape") {
+        setOpen(false);
+        toggleRef.current?.focus();
+      }
+    };
+    const mq = window.matchMedia("(min-width: 768px)");
+    const onChange = (e) => e.matches && setOpen(false);
+    window.addEventListener("keydown", onKey);
+    mq.addEventListener("change", onChange);
+    return () => {
+      window.removeEventListener("keydown", onKey);
+      mq.removeEventListener("change", onChange);
     };
   }, [open]);
 
@@ -47,9 +90,10 @@ export default function Navbar() {
     <>
       <motion.header
         id="top"
-        initial={{ y: -100, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.6, delay: 0.9, ease: [0.22, 1, 0.36, 1] }}
+        initial={{ y: "-100%", opacity: 0 }}
+        animate={{ y: hidden ? "-100%" : 0, opacity: 1 }}
+        transition={{ duration: 0.4, delay: introDone.current ? 0 : 0.9, ease: [0.22, 1, 0.36, 1] }}
+        onFocusCapture={() => setHidden(false)} // keyboard users always see the nav
         className={`fixed inset-x-0 top-0 z-50 border-b transition-colors duration-300 ${
           scrolled || open ? "border-violet-500/30 bg-[#070720]/80 backdrop-blur-xl" : "border-transparent"
         }`}
@@ -94,16 +138,26 @@ export default function Navbar() {
           </Link>
 
           <button
+            ref={toggleRef}
             type="button"
             aria-label={open ? "Close menu" : "Open menu"}
             aria-expanded={open}
-            aria-controls="nav-menu"
+            aria-controls={open ? "nav-menu" : undefined}
             onClick={() => setOpen((v) => !v)}
             className="rounded-md p-1 md:hidden"
           >
             {open ? <LuX size={28} /> : <LuMenu size={28} />}
           </button>
         </nav>
+
+        {/* Reading progress */}
+        {!reduce && (
+          <motion.span
+            aria-hidden
+            style={{ scaleX: progress }}
+            className="absolute inset-x-0 -bottom-px h-0.5 origin-left bg-linear-to-r from-[#6d4aff] to-[#a99bff]"
+          />
+        )}
       </motion.header>
 
       {/* Mobile menu: slides in from the right and slides back out.
@@ -124,6 +178,7 @@ export default function Navbar() {
                 <motion.li key={l.href} variants={item}>
                   <Link
                     href={l.href}
+                    aria-current={isActive(l.href) ? "page" : undefined}
                     className={`block py-3 text-2xl ${isActive(l.href) ? "font-semibold text-[#6d4aff]" : ""}`}
                   >
                     {l.label}

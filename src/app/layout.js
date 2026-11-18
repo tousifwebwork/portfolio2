@@ -13,7 +13,7 @@ export const metadata = {
   openGraph: { title: "Tousif | Atmosphere", description: "IT Solutions. Simplified.", type: "website" },
 };
 
-export const viewport = { themeColor: "#070720" };
+export const viewport = { themeColor: "#070720",width: "device-width", initialScale: 1 };
 
 export default function RootLayout({ children }) {
   return (

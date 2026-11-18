@@ -3,18 +3,17 @@
 ------------------------------------------------------------------- */
 import { FaGithub, FaLinkedinIn, FaXTwitter, FaInstagram } from "react-icons/fa6";
 import { SiLeetcode } from "react-icons/si";
-import {
-  LuCode, LuCloud, LuGraduationCap, LuPalette, LuServer, LuLightbulb, LuCpu, LuBookOpen, LuGamepad2,
-  LuZap, LuShieldCheck, LuUsers, LuSparkles, LuTrophy, LuAward,
-} from "react-icons/lu";
+import {LuCode, LuCloud, LuGraduationCap, LuPalette, LuServer, LuLightbulb, LuCpu, LuBookOpen, LuGamepad2,LuZap, LuShieldCheck, LuUsers, LuSparkles, LuTrophy, LuAward } from "react-icons/lu";
+import { IoIosFootball } from "react-icons/io";
+
 
 export const SITE = {
-  name: "Tousif",
-  email: "hello@yourdomain.com",
-  location: "Your City, India",
+  name: "Mohammad Tousif Sunkat",
+  email: "tousifwebwork@gmail.com",
+  location: "Ponda, Goa, India",
   status: "Open to internships & freelance work",
   responseTime: "Within 24 hours",
-  resume: "/resume.pdf", // put your PDF in /public/resume.pdf
+  resume: "/Mohammad_Tousif_Resume_.pdf", // put your PDF in /public/resume.pdf
   socials: [
     { label: "GitHub", href: "https://github.com/your-username", icon: FaGithub },
     { label: "LinkedIn", href: "https://linkedin.com/in/your-username", icon: FaLinkedinIn },
@@ -32,7 +31,7 @@ export const STORY = [
 
 export const FACTS = [
   { label: "Based in", value: SITE.location },
-  { label: "Focus", value: "Web, cloud and design" },
+  { label: "Focus", value: "Web, cloud and system design" },
   { label: "Languages", value: "English, Hindi, Konkani" },
   { label: "Currently", value: "Learning cloud architecture" },
 ];
@@ -51,10 +50,10 @@ export const SKILLS = [
 ];
 
 export const JOURNEY = [
-  { period: "2026", title: "Launched Atmosphere", text: "Started my IT solutions brand offering web development, cloud solutions and training." },
-  { period: "2025", title: "Entered two competitions", text: "Built and presented projects under time pressure and learned to ship fast." },
-  { period: "2025", title: "Shipped five projects", text: "Moved from tutorials to real builds, from portfolio sites to full-stack apps." },
-  { period: "2024", title: "Wrote my first line of code", text: "Began with JavaScript and fell in love with building things for the web." },
+  { period: "2027 (expected)", title: "Completing IT Engineering", text: "Finishing my engineering degree in Information Technology while building real projects alongside my studies." },
+  { period: "2026", title: "Worked with a cab driver client", text: "Delivered work for a real client, turning their needs into something practical they could use." },
+  { period: "2026", title: "Karmaveer internship", text: "Gained hands-on industry experience, working on real tasks and learning how professional teams operate." },
+  { period: "2022", title: "Completed 12th Science", text: "Finished higher secondary with a science background, which laid the foundation for my move into engineering." },
 ];
 
 export const PRINCIPLES = [
@@ -63,6 +62,7 @@ export const PRINCIPLES = [
   { icon: LuUsers, title: "Clear communication", text: "Regular updates and plain language, so you always know where things stand." },
   { icon: LuSparkles, title: "Attention to detail", text: "Spacing, motion and copy get the same care as the code behind them." },
 ];
+import { TbMotorbike } from "react-icons/tb";
 
 export const INTERESTS = [
   { icon: LuCpu, label: "Cloud & DevOps" },
@@ -70,6 +70,8 @@ export const INTERESTS = [
   { icon: LuPalette, label: "UI design" },
   { icon: LuBookOpen, label: "Teaching IT" },
   { icon: LuGamepad2, label: "Gaming" },
+  { icon: IoIosFootball, label: "Football" },
+  { icon: TbMotorbike , label: "Riding" },
 ];
 
 export const PROJECTS = [
